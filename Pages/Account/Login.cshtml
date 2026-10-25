@@ -1,0 +1,31 @@
+﻿@page
+@model AuthenticationModule.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <h2 class="text-center mb-4">Iniciar Sesión</h2>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">@Model.SuccessMessage</div>
+        }
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label for="username">Usuario</label>
+                <input id="username" name="Username" class="form-control" value="@Model.Username" required />
+            </div>
+            <div class="mb-3">
+                <label for="password">Contraseña</label>
+                <input id="password" name="Password" type="password" class="form-control" required />
+            </div>
+            <button class="btn btn-primary w-100">Iniciar Sesión</button>
+            <p class="text-center mt-3"><a asp-page="Register">Crear una cuenta</a></p>
+        </form>
+    </div></div>

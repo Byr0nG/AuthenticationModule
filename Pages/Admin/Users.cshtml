@@ -1,0 +1,6 @@
+﻿@page
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "AdminOnly")]
+@{
+    ViewData["Title"] = "Usuarios";
+}
+<h2>Administración de usuarios</h2>
