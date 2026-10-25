@@ -22,6 +22,188 @@ namespace AuthenticationModule.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AuthenticationModule.Models.Docente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApellidoMaterno")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("apellido_materno");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("apellido_paterno");
+
+                    b.Property<string>("Especialidad")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("especialidad");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("docentes");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Estudiante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApellidoMaterno")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("apellido_materno");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("apellido_paterno");
+
+                    b.Property<string>("Curso")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("curso");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("nombre");
+
+                    b.Property<int?>("ProyectoId")
+                        .HasColumnType("integer")
+                        .HasColumnName("proyecto_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProyectoId");
+
+                    b.ToTable("estudiantes");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Evaluacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DocenteId")
+                        .HasColumnType("integer")
+                        .HasColumnName("docente_id");
+
+                    b.Property<DateTime>("FechaEvaluacion")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("fecha_evaluacion");
+
+                    b.Property<decimal?>("Nota")
+                        .HasColumnType("numeric")
+                        .HasColumnName("nota");
+
+                    b.Property<string>("Observaciones")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("observaciones");
+
+                    b.Property<int>("ProyectoId")
+                        .HasColumnType("integer")
+                        .HasColumnName("proyecto_id");
+
+                    b.Property<string>("Recomendaciones")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("recomendaciones");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocenteId");
+
+                    b.HasIndex("ProyectoId");
+
+                    b.ToTable("evaluaciones");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Proyecto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("DescripcionPrototipo")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("descripcion_prototipo");
+
+                    b.Property<string>("ObjetivoGeneral")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("objetivo_general");
+
+                    b.Property<string>("Problematica")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("problematica");
+
+                    b.Property<string>("RecursosTecnologias")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("recursos_tecnologias");
+
+                    b.Property<int>("TipoProyecto")
+                        .HasColumnType("integer")
+                        .HasColumnName("tipo_proyecto");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("titulo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("proyectos");
+
+                    b.UseTptMappingStrategy();
+                });
+
             modelBuilder.Entity("AuthenticationModule.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -151,6 +333,119 @@ namespace AuthenticationModule.Data.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("AuthenticationModule.Models.ProyectoEmprendimiento", b =>
+                {
+                    b.HasBaseType("AuthenticationModule.Models.Proyecto");
+
+                    b.Property<string>("AnalisisCompetencia")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("analisis_competencia");
+
+                    b.Property<decimal>("EstimacionInversionInicial")
+                        .HasColumnType("numeric")
+                        .HasColumnName("estimacion_inversion_inicial");
+
+                    b.Property<string>("EstrategiaComercializacion")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("estrategia_comercializacion");
+
+                    b.Property<string>("ModeloIngresos")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("modelo_ingresos");
+
+                    b.Property<string>("PropuestaValor")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("propuesta_valor");
+
+                    b.Property<string>("SegmentoMercado")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("segmento_mercado");
+
+                    b.Property<string>("ViabilidadEconomica")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("viabilidad_economica");
+
+                    b.ToTable("proyectos_emprendimientos");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.ProyectoSociocomunitario", b =>
+                {
+                    b.HasBaseType("AuthenticationModule.Models.Proyecto");
+
+                    b.Property<string>("ActoresInvolucrados")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("actores_involucrados");
+
+                    b.Property<string>("Beneficiarios")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("beneficiarios");
+
+                    b.Property<string>("EstrategiasSostenibilidad")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("estrategias_sostenibilidad");
+
+                    b.Property<string>("ImpactoSocialEsperado")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("impacto_social_esperado");
+
+                    b.Property<string>("UbicacionGeografica")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("ubicacion_geografica");
+
+                    b.ToTable("proyectos_sociocomunitarios");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Estudiante", b =>
+                {
+                    b.HasOne("AuthenticationModule.Models.Proyecto", "Proyecto")
+                        .WithMany("Estudiantes")
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Proyecto");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Evaluacion", b =>
+                {
+                    b.HasOne("AuthenticationModule.Models.Docente", "Docente")
+                        .WithMany("Evaluaciones")
+                        .HasForeignKey("DocenteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AuthenticationModule.Models.Proyecto", "Proyecto")
+                        .WithMany("Evaluaciones")
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Docente");
+
+                    b.Navigation("Proyecto");
+                });
+
             modelBuilder.Entity("AuthenticationModule.Models.User", b =>
                 {
                     b.HasOne("AuthenticationModule.Models.Role", "Role")
@@ -160,6 +455,36 @@ namespace AuthenticationModule.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.ProyectoEmprendimiento", b =>
+                {
+                    b.HasOne("AuthenticationModule.Models.Proyecto", null)
+                        .WithOne()
+                        .HasForeignKey("AuthenticationModule.Models.ProyectoEmprendimiento", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.ProyectoSociocomunitario", b =>
+                {
+                    b.HasOne("AuthenticationModule.Models.Proyecto", null)
+                        .WithOne()
+                        .HasForeignKey("AuthenticationModule.Models.ProyectoSociocomunitario", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Docente", b =>
+                {
+                    b.Navigation("Evaluaciones");
+                });
+
+            modelBuilder.Entity("AuthenticationModule.Models.Proyecto", b =>
+                {
+                    b.Navigation("Estudiantes");
+
+                    b.Navigation("Evaluaciones");
                 });
 
             modelBuilder.Entity("AuthenticationModule.Models.Role", b =>
