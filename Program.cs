@@ -9,7 +9,7 @@ using Dapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-
+using AuthenticationModule.Services.Projects;
 var builder = WebApplication.CreateBuilder(args);
 DefaultTypeMap.MatchNamesWithUnderscores = true;
 
@@ -19,6 +19,10 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ILoggingService, LoggingDecorator>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IProyectoRepository, ProyectoRepository>();
+builder.Services.AddScoped<IEstudianteRepository, EstudianteRepository>();
+builder.Services.AddScoped<IDocenteRepository, DocenteRepository>();
+builder.Services.AddScoped<IEvaluacionRepository, EvaluacionRepository>();
 
 // 2. Autenticación por cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -101,6 +105,8 @@ using (var scope = app.Services.CreateScope())
     Seed("admin", "admin@authmodule.local", "Admin123!", 1);
     Seed("user", "user@authmodule.local", "User123!", 2);
     db.SaveChanges();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    await SeedDataProyectos.SeedProyectosAsync(db, logger);
 }
 
 app.Run();

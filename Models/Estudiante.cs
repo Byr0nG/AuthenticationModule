@@ -6,6 +6,7 @@ namespace AuthenticationModule.Models
     [Table("estudiantes")]
     public class Estudiante
     {
+       
         [Key, Column("id")]
         public int Id { get; set; }
 
@@ -39,5 +40,6 @@ namespace AuthenticationModule.Models
 
         [ForeignKey("ProyectoId")]
         public virtual Proyecto Proyecto { get; set; }
+        [NotMapped] public string ProyectoTitulo { get; set; }
     }
 }

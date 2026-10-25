@@ -39,5 +39,9 @@ namespace AuthenticationModule.Models
         [Range(0, 100, ErrorMessage = "La nota debe estar entre 0 y 100")]
         [Column("nota")]
         public decimal? Nota { get; set; }
+        [NotMapped] public string ProyectoTitulo { get; set; }
+        [NotMapped] public string DocenteNombre { get; set; }
+        [NotMapped] public string DocenteApellidoPaterno { get; set; }
+        [NotMapped] public string DocenteEspecialidad { get; set; }
     }
 }
